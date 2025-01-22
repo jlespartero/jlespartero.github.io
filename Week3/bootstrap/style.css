@@ -1,0 +1,24 @@
+.box{
+    height: 100px;
+}
+
+.box1{
+    background-color: black;
+}
+
+.box2{
+    height: 50px;
+    background-color: blanchedalmond;
+}
+
+.box3{
+    height: 50px;
+    background-color: burlywood;
+
+}.box4{
+    background-color: grey;
+}
+
+.box5{
+    background-color: orangered;
+}
