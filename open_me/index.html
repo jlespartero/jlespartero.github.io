@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        body {
+            background-color: #e0f7fa;
+            overflow: hidden;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            position: relative;
+        }
+
+        .lily {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: scale(0);
+            animation: bloom 3s ease-in-out forwards;
+        }
+
+        .petal {
+            position: absolute;
+            width: 40px;
+            height: 60px;
+            background-color: #ffb6c1;
+            border-radius: 50%;
+            opacity: 0;
+            animation: petal-bloom 3s ease-in-out forwards;
+        }
+
+        .petal:nth-child(1) { transform: rotate(0deg) translateY(-25px); }
+        .petal:nth-child(2) { transform: rotate(60deg) translateY(-25px); }
+        .petal:nth-child(3) { transform: rotate(120deg) translateY(-25px); }
+        .petal:nth-child(4) { transform: rotate(180deg) translateY(-25px); }
+        .petal:nth-child(5) { transform: rotate(240deg) translateY(-25px); }
+        .petal:nth-child(6) { transform: rotate(300deg) translateY(-25px); }
+
+        .center {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #ff9800;
+            border-radius: 50%;
+            z-index: 2; 
+            animation: bloom-center 3s ease-in-out forwards;
+        }
+
+        @keyframes bloom {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes petal-bloom {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes bloom-center {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .center-text{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            font-weight: bold;
+            color: #631730;
+            text-align: center;
+            padding: 10px 20px;
+            border-radius: 10px;
+            z-index: 10;
+            animation: fadeIn 3s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0;}
+            100% { opacity: 1;}
+        }
+    </style>
+</head>
+<body>
+    <div class="center-text">
+        <h1>Happy Valentine's Day Nigga</h1>
+    </div>
+    <script>
+        const lilies = [];
+        const lilySize = 120;
+
+        function isOverlapping(newX, newY) {
+            for (let lily of lilies) {
+                const dx = lily.x - newX;
+                const dy = lily.y - newY;
+                if (Math.sqrt(dx * dx + dy * dy) < lilySize) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function createLily() {
+            let attempts = 0;
+            let maxAttempts = 250;
+            let x, y;
+
+            do {
+                x = Math.random() * (window.innerWidth - lilySize);
+                y = Math.random() * (window.innerHeight - lilySize);
+                attempts++;
+            } while (isOverlapping(x, y) && attempts < maxAttempts);
+
+            if (attempts === maxAttempts) return;
+
+            const lily = document.createElement('div');
+            lily.classList.add('lily');
+            lily.style.left = `${x}px`;
+            lily.style.top = `${y}px`;
+            lily.style.animationDelay = `${Math.random() * 5}s`;
+
+            for (let i = 0; i < 6; i++) {
+                const petal = document.createElement('div');
+                petal.classList.add('petal');
+                lily.appendChild(petal);
+            }
+
+            const center = document.createElement('div');
+            center.classList.add('center');
+            lily.appendChild(center);
+
+            document.body.appendChild(lily);
+            lilies.push({ x, y });
+        }
+
+        for (let i = 0; i < 15; i++) {
+            createLily();
+        }
+    </script>
+</body>
+</html>
